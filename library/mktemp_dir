@@ -1,0 +1,11 @@
+#!/bin/bash
+
+out="$(mktemp -d 2>&1)"
+
+if [ $? == 0 ]; then
+    chmod 755 "$out"
+    echo "changed=True path=\"$out\""
+else
+    echo "failed=True msg=\"$out\""
+fi
+exit 0

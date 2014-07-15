@@ -1,0 +1,30 @@
+---
+- name: create database user
+  delegate_to: "{{ pentahobi_db_delegate_to }}"
+  sudo_user: postgres
+  postgresql_user: >
+    name={{ pentahobi_db_user }}
+    password="{{ pentahobi_db_pass }}"
+  tags: accounts
+
+- name: create databases
+  delegate_to: "{{ pentahobi_db_delegate_to }}"
+  sudo_user: postgres
+  postgresql_db: >
+    name={{ item }}
+    owner={{ pentahobi_db_user }}
+  register: createdb_result
+  with_items:
+    - "{{ pentahobi_db_qrtz_name }}"
+    - "{{ pentahobi_db_hib_name }}"
+    - "{{ pentahobi_db_jcr_name }}"
+
+- name: initialize database for quartz
+  postgresql_exec: >
+    src=quartz_init.pg.sql
+    database={{ pentahobi_db_qrtz_name }}
+    host={{ pentahobi_db_host }}
+    port={{ pentahobi_db_port }}
+    user={{ pentahobi_db_user }}
+    password={{ pentahobi_db_pass }}
+  when: createdb_result | changed

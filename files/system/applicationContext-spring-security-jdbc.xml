@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--+
+	| Application context containing JDBC AuthenticationProvider
+	| implementation.
+	+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:pen="http://www.pentaho.com/schema/pentaho-system"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	   http://www.pentaho.com/schema/pentaho-system http://www.pentaho.com/schema/pentaho-system.xsd" default-lazy-init="true">
+
+	<bean id="authenticationProvider"
+		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService">
+			<pen:bean class="org.springframework.security.userdetails.UserDetailsService"/>
+		</property>
+		<property name="passwordEncoder">
+			<ref bean="jdbcPasswordEncoder" />
+		</property>
+		<pen:publish as-type="org.springframework.security.providers.AuthenticationProvider">
+			<pen:attributes>
+				<pen:attr key="providerName" value="jdbc"/>
+			</pen:attributes>
+		</pen:publish>
+	</bean>
+
+	<bean id="jdbcUserDetailsService"
+		class="org.pentaho.platform.engine.security.DefaultRoleJdbcDaoImpl">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="authoritiesByUsernameQuery">
+			<value>
+				<![CDATA[SELECT username, authority FROM GRANTED_AUTHORITIES WHERE username = ? ORDER BY authority]]>
+			</value>
+		</property>
+		<property name="usersByUsernameQuery">
+			<value>
+				<![CDATA[SELECT username, password, enabled FROM USERS WHERE username = ? ORDER BY username]]>
+			</value>
+		</property>
+		<property name="rolePrefix" value="" />
+		<property name="defaultRole" ref="defaultRole" />
+		<property name="roleMapper" ref="jdbcRoleMapper" />
+		<constructor-arg ref="tenantedUserNameUtils"/>		
+		<pen:publish as-type="INTERFACES">
+			<pen:attributes>
+				<pen:attr key="providerName" value="jdbc"/>
+			</pen:attributes>
+		</pen:publish>
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	    <property name="jndiName" value="java:comp/env/jdbc/Hibernate"/>
+	    <property name="proxyInterface" value="javax.sql.DataSource"/>
+	</bean>
+	
+	<bean id="jdbcPasswordEncoder"
+		class="org.springframework.security.providers.encoding.PlaintextPasswordEncoder" />
+
+</beans>

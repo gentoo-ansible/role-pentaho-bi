@@ -1,0 +1,23 @@
+contextSource.providerUrl={{ pentahobi_ldap_server_url }}/{{ pentahobi_ldap_base_dn }}
+contextSource.userDn={{ pentahobi_ldap_bind_dn }}
+contextSource.password={{ pentahobi_ldap_bind_pass }}
+
+userSearch.searchBase={{ pentahobi_ldap_people_base }}
+userSearch.searchFilter=(&(uid={0}){{ pentahobi_ldap_people_filter }})
+
+allUsernamesSearch.usernameAttribute=uid
+allUsernamesSearch.searchBase={{ pentahobi_ldap_people_base }}
+allUsernamesSearch.searchFilter={{ pentahobi_ldap_people_filter }}
+
+populator.convertToUpperCase=false
+populator.groupRoleAttribute=cn
+populator.groupSearchBase={{ pentahobi_ldap_groups_base }}
+populator.groupSearchFilter=({{ pentahobi_ldap_groups_member_attr }}={0})
+populator.rolePrefix=
+populator.searchSubtree=true
+
+allAuthoritiesSearch.roleAttribute=cn
+allAuthoritiesSearch.searchBase={{ pentahobi_ldap_groups_base }}
+allAuthoritiesSearch.searchFilter={{ pentahobi_ldap_groups_filter }}
+
+adminRole={{ pentahobi_ldap_admin_group_dn }}

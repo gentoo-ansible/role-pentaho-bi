@@ -1,0 +1,24 @@
+---
+- name: install PostgreSQL JDBC driver
+  portage: package=dev-java/jdbc-postgresql
+  tags: packages
+
+- name: check if already deployed
+  command: "test -e {{ pentahobi_base_dir }}/webapps/pentaho"
+  register: _check_result
+  failed_when: false
+  changed_when: false
+
+- include: deploy.yml tags=install
+  when: _check_result.rc != 0
+
+- include: configure.yml tags=config
+
+- include: database.yml tags=database
+
+- name: enable and start pentaho-bi
+  service: >
+    name={{ pentahobi_name }}
+    enabled=true
+    state=started
+  tags: services

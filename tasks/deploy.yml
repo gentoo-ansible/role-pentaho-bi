@@ -1,0 +1,76 @@
+---
+- name: create temp directory
+  action: mktemp_dir
+  register: _tmp
+
+- name: ensure pentaho-solutions directory
+  file: >
+    state=directory
+    path={{ pentahobi_solution_path }}
+    owner={{ pentahobi_user }}
+    group={{ pentahobi_group }}
+    mode=0750
+
+- name: fetch package
+  get_url: >
+    url={{ pentahobi_pkg_url }}
+    dest={{ _tmp.path }}/{{ pentahobi_pkg_url | basename }}
+
+- name: unpack package to temp directory
+  command: >
+    unzip -o -d {{ _tmp.path }} {{ _tmp.path }}/{{ pentahobi_pkg_url | basename }}
+
+
+- name: remove unwanted files in webapps/pentaho
+  file: >
+    state=absent
+    path={{ _tmp.path }}/biserver-ce/tomcat/webapps/pentaho/{{ item }}
+  with_items:
+    - META-INF/context.xml  # this would override JNDI resources from server.xml
+    - WEB-INF/jboss-classloading.xml  # useless
+
+- name: copy webapps
+  command: >
+    cp -Rl {{ _tmp.path }}/biserver-ce/tomcat/webapps/{{ item }} {{ pentahobi_base_dir }}/webapps/
+  with_items:
+    - pentaho
+    - pentaho-style
+    - ROOT
+
+- name: remove unnecessary configs
+  file: >
+    state=absent
+    path={{ _tmp.path }}/biserver-ce/pentaho-solutions/system/{{ item }}
+  with_items:
+    - dialects  # this seems like a duplication of hibernate/
+    - hibernate  # don't need config for every DB type, we're gonna copy our config instead
+    - simple-jndi  # seems useless
+    - applicationContext-spring-security-jdbc.properties  # replaced with JNDI
+    - applicationContext-spring-security-hibernate.properties  # replaced with JNDI
+    - GettingStartedDB-spring.xml  # uses H2 database
+    - GettingStartedDB.properties  # uses H2 database
+    - quartz/h2-quartz-schema-updated.sql  # uses H2 database
+    - smtp-email/email_config_gmail.xml  # useless
+  tags: cleanup
+
+- name: copy pentaho-solutions directory
+  shell: >
+    cp -Rl {{ _tmp.path }}/biserver-ce/pentaho-solutions/* {{ pentahobi_solution_path }}/
+
+- name: fix files permissions
+  file: >
+    state=directory
+    dest={{ item }}
+    owner={{ pentahobi_user }}
+    group={{ pentahobi_group }}
+    recurse=yes
+  with_items:
+    - "{{ pentahobi_base_dir }}/webapps"
+    - "{{ pentahobi_solution_path }}"
+
+
+- name: delete temp directory
+  file: >
+    path={{ _tmp.path }}
+    state=absent
+  tags: cleanup

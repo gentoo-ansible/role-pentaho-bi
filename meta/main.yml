@@ -1,0 +1,39 @@
+---
+galaxy_info:
+  author: Jakub Jirutka
+  company: CTU in Prague
+  description: Deploy Pentaho BI server CE.
+  license: MIT
+  min_ansible_version: 1.8
+  platforms:
+    - name: Gentoo
+  categories:
+    - web
+
+dependencies:
+  - role: tomcat
+    tomcat_name: "{{ pentahobi_name }}"
+    tomcat_user: "{{ pentahobi_user }}"
+    tomcat_group: "{{ pentahobi_group }}"
+    tomcat_base_dir: "{{ pentahobi_base_dir }}"
+    tomcat_extra_jars: ['jdbc-postgresql']
+    tomcat_global_resources:
+      - name: jdbc/Hibernate
+        type: javax.sql.DataSource
+        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_hib_name }}"
+        username: "{{ pentahobi_db_user }}"
+        password: "{{ pentahobi_db_pass }}"
+      - name: jdbc/Quartz
+        type: javax.sql.DataSource
+        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_qrtz_name }}"
+        username: "{{ pentahobi_db_user }}"
+        password: "{{ pentahobi_db_pass }}"
+        initialSize: 1
+        minIdle: 0
+      - name: jdbc/Jackrabbit
+        type: javax.sql.DataSource
+        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_jcr_name }}"
+        username: "{{ pentahobi_db_user }}"
+        password: "{{ pentahobi_db_pass }}"
+    tomcat_rc_depend:
+      use: postgresql

@@ -1,0 +1,128 @@
+---
+# Name of this Pentaho BI instance.
+pentahobi_name: pentaho-bi
+
+# Version to install.
+pentahobi_version: 5.1.0.0-752
+
+# URL of the distribution package to download.
+pentahobi_pkg_url: "http://sourceforge.net/projects/pentaho/files/biserver-ce-{{ pentahobi_version }}.zip"
+
+
+# User to create that will run the Pentaho BI instance.
+pentahobi_user: pentaho
+
+# Group to create that will run the Pentaho BI instance.
+pentahobi_group: "{{ pentahobi_user }}"
+
+
+# Path of the base directory to install into.
+pentahobi_base_dir: "/opt/{{ pentahobi_name }}"
+
+# Path of the pentaho-solutions directory.
+pentahobi_solution_path: "{{ pentahobi_base_dir }}/pentaho-solutions"
+
+
+# Base URL of the Pentaho application (incl. https://).
+pentahobi_server_url: http://localhost:8080
+
+# Locale (e.g. cs_CZ, en_US)
+pentahobi_locale: cs_CZ
+
+# Whether to enable default users.
+#pentahobi_default_users_enabled: "{{ not pentabobi_ldap_enabled | bool }}"
+
+#
+# Tomcat
+#
+# Size of the heap in megabytes. This sets parameters -Xms and -Xmx.
+tomcat_heap_size: 512
+
+# Size of the Permanent Generation space in megabytes. This sets parameters
+# -XX:PermSize and -XX:MaxPermSize.
+tomcat_perm_size: 256
+
+#
+# Databases
+#
+
+# Address of the PostgreSQL instance.
+pentahobi_db_host: "{{ pg_host }}"
+
+# Port number of the PostgreSQL instance.
+pentahobi_db_port: 5432
+
+# Name of the database user for Pentaho databases. May be overridden for
+# particular databases (see below).
+pentahobi_db_user: "{{ pentahobi_name }}"
+
+# Password of the database user for Pentaho databases. May be overridden for
+# particular databases (see below).
+pentahobi_db_pass: pentaho
+
+# Name of the database for Audit etc.
+pentahobi_db_hib_name: "{{ pentahobi_name }}_hib"
+
+# Name of the database for Quartz scheduler.
+pentahobi_db_qrtz_name: "{{ pentahobi_name }}_quartz"
+
+# Name of the database for Jackrabbit.
+pentahobi_db_jcr_name: "{{ pentahobi_name }}_jcr"
+
+# Should not be changed.
+pentahobi_db_delegate_to: "{{ pentahobi_db_host | replace('localhost', inventory_hostname) | replace('127.0.0.1', inventory_hostname) }}"
+
+#
+# SMTP
+#
+
+# Address of the SMTP server for sending e-mails.
+pentahobi_smtp_host: "{{ smtp_host }}"
+
+# Port number of the SMTP server for sending e-mails.
+pentahobi_smtp_port: "{{ smtp_port }}"
+
+# The default 'from' address that e-mails from the Pentaho BI will appear to
+# come from (e.g. joe.pentaho@pentaho.org).
+pentahobi_smtp_default_from: "{{ smtp_noreply }}"
+
+#
+# LDAP
+#
+
+# Whether to enable LDAP authentication.
+pentabobi_ldap_enabled: true
+
+# URI of the LDAP server to connect to. The URI scheme may be ldap, or ldaps.
+# Port number may be specified; the default port number for the selected
+# protocol is used if omitted.
+pentahobi_ldap_server_url: "ldaps://{{ ldap_host }}"
+
+# Distinguished name of the search base.
+pentahobi_ldap_base_dn: "{{ ldap_basedn }}"
+
+# Fully qualified distinguished name of a user with read access to LDAP.
+pentahobi_ldap_bind_dn: ''
+
+# Password of the user user with read access to LDAP.
+pentahobi_ldap_bind_pass: ''
+
+# Distinguished name of the people search base, relative to the server base DN.
+pentahobi_ldap_people_base: 'ou=People'
+
+# Filter to use when retrieving users, additional to the uid attribute value
+# assertion (uid=<login>).
+pentahobi_ldap_people_filter: '(objectclass=inetOrgPerson)'
+
+# Distinguished name of the groups search base, relative to the server base DN.
+pentahobi_ldap_groups_base: 'ou=Groups'
+
+# Filter to use when retrieving groups.
+pentahobi_ldap_groups_filter: '(objectClass=groupOfUniqueNames)'
+
+# Name of the group member attribute.
+pentahobi_ldap_groups_member_attr: 'uniqueMember'
+
+# Distinguished name of a group that will be mapped to the Administrator role,
+# relative to the groups base DN.
+pentahobi_ldap_admin_group_dn: 'cn=Administrator'

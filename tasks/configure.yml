@@ -1,0 +1,56 @@
+---
+- name: replace pentaho/WEB-INF/web.xml
+  template: >
+    src=webapps/pentaho/WEB-INF/web.xml.j2
+    dest={{ pentahobi_base_dir }}/webapps/pentaho/WEB-INF/web.xml
+
+- name: ensure directories
+  file: >
+    state=directory
+    path={{ pentahobi_solution_path }}/system/{{ item }}
+    owner={{ pentahobi_user }}
+    group={{ pentahobi_group }}
+    mode=0755
+  with_items:
+    - hibernate
+    - jackrabbit
+
+- name: copy configuration files
+  copy: >
+    src=system/{{ item }}
+    dest={{ pentahobi_solution_path }}/system/{{ item }}
+    owner={{ pentahobi_user }}
+    group={{ pentahobi_group }}
+  with_items:
+    - applicationContext-spring-security-jdbc.xml
+    - hibernate/hibernate-settings.xml
+    - hibernate/postgresql.jndi.hibernate.cfg.xml
+    - jackrabbit/repository.xml
+
+- name: configure emails and LDAP
+  template: >
+    src=system/{{ item }}.j2
+    dest={{ pentahobi_solution_path }}/system/{{ item }}
+    owner={{ pentahobi_user }}
+    group={{ pentahobi_group }}
+  with_items:
+    - smtp-email/email_config.xml
+    - applicationContext-security-ldap.properties
+
+- name: configure authentication
+  copy: >
+    content="provider={{ 'ldap' if pentabobi_ldap_enabled | bool else 'jackrabbit' }}\n"
+    dest={{ pentahobi_solution_path }}/system/security.properties
+
+# TODO: doesn't work well
+#- name: disable default users
+#  replace: >
+#    dest={{ pentahobi_solution_path }}/system/pentaho-spring-beans.xml
+#    regexp='^.*defaultUser.spring.xml.*$'
+#  when: not pentahobi_default_users_enabled | bool
+
+  # it uses H2 database that we disables
+- name: remove GettingStartedDB from pentaho-spring-beans.xml
+  replace: >
+    dest={{ pentahobi_solution_path }}/system/pentaho-spring-beans.xml
+    regexp='^.*GettingStartedDB.*$'
