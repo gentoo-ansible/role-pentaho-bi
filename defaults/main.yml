@@ -29,8 +29,8 @@ pentahobi_server_url: http://localhost:8080
 # Locale (e.g. cs_CZ, en_US)
 pentahobi_locale: cs_CZ
 
-# Whether to enable default users.
-#pentahobi_default_users_enabled: "{{ not pentabobi_ldap_enabled | bool }}"
+# Authentication provider; jackrabbit, ldap, or jdbc. Default is jackrabbit.
+pentabobi_auth_provider: jackrabbit
 
 #
 # Tomcat
@@ -92,9 +92,6 @@ pentahobi_smtp_default_from: "{{ smtp_noreply }}"
 #
 # LDAP
 #
-
-# Whether to enable LDAP authentication.
-pentabobi_ldap_enabled: true
 
 # URI of the LDAP server to connect to. The URI scheme may be ldap, or ldaps.
 # Port number may be specified; the default port number for the selected

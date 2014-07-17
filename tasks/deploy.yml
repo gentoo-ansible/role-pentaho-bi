@@ -47,9 +47,13 @@
     - simple-jndi  # seems useless
     - applicationContext-spring-security-jdbc.properties  # replaced with JNDI
     - applicationContext-spring-security-hibernate.properties  # replaced with JNDI
+    - applicationContext-pentaho-security-memory.xml  # unused
+    - applicationContext-spring-security-memory.xml  # unused
+    - applicationContext-pentaho-security-superuser.xml  # unused
+    - applicationContext-spring-security-superuser.xml  # unused
     - GettingStartedDB-spring.xml  # uses H2 database
     - GettingStartedDB.properties  # uses H2 database
-    - quartz/h2-quartz-schema-updated.sql  # uses H2 database
+    - quartz/h2-quartz-schema-updated.sql  # useless, it's just for H2 database
     - smtp-email/email_config_gmail.xml  # useless
   tags: cleanup
 
