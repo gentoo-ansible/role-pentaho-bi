@@ -1,0 +1,19 @@
+---
+_default_jndi_resources:
+  - name: jdbc/Hibernate
+    type: javax.sql.DataSource
+    url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_hib_name }}"
+    username: "{{ pentahobi_db_user }}"
+    password: "{{ pentahobi_db_pass }}"
+  - name: jdbc/Quartz
+    type: javax.sql.DataSource
+    url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_qrtz_name }}"
+    username: "{{ pentahobi_db_user }}"
+    password: "{{ pentahobi_db_pass }}"
+    initialSize: 1
+    minIdle: 0
+  - name: jdbc/Jackrabbit
+    type: javax.sql.DataSource
+    url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_jcr_name }}"
+    username: "{{ pentahobi_db_user }}"
+    password: "{{ pentahobi_db_pass }}"

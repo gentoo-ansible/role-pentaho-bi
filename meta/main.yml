@@ -17,23 +17,6 @@ dependencies:
     tomcat_group: "{{ pentahobi_group }}"
     tomcat_base_dir: "{{ pentahobi_base_dir }}"
     tomcat_extra_jars: ['jdbc-postgresql']
-    tomcat_global_resources:
-      - name: jdbc/Hibernate
-        type: javax.sql.DataSource
-        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_hib_name }}"
-        username: "{{ pentahobi_db_user }}"
-        password: "{{ pentahobi_db_pass }}"
-      - name: jdbc/Quartz
-        type: javax.sql.DataSource
-        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_qrtz_name }}"
-        username: "{{ pentahobi_db_user }}"
-        password: "{{ pentahobi_db_pass }}"
-        initialSize: 1
-        minIdle: 0
-      - name: jdbc/Jackrabbit
-        type: javax.sql.DataSource
-        url: "jdbc:postgresql://{{ pentahobi_db_host }}/{{ pentahobi_db_jcr_name }}"
-        username: "{{ pentahobi_db_user }}"
-        password: "{{ pentahobi_db_pass }}"
+    tomcat_global_resources: "{{ _default_jndi_resources + pentahobi_jndi_resources }}"
     tomcat_rc_depend:
       use: postgresql

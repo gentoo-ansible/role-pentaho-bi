@@ -72,6 +72,9 @@ pentahobi_db_jcr_name: "{{ pentahobi_name }}_jcr"
 # Should not be changed.
 pentahobi_db_delegate_to: "{{ pentahobi_db_host | replace('localhost', inventory_hostname) | replace('127.0.0.1', inventory_hostname) }}"
 
+# List of additional JNDI resources (see tomcat role for examples).
+pentahobi_jndi_resources: []
+
 #
 # SMTP
 #
