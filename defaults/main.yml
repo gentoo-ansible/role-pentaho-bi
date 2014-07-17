@@ -80,14 +80,14 @@ pentahobi_jndi_resources: []
 #
 
 # Address of the SMTP server for sending e-mails.
-pentahobi_smtp_host: "{{ smtp_host }}"
+pentahobi_smtp_host: "{{ smtp_host | default('localhost') }}"
 
 # Port number of the SMTP server for sending e-mails.
-pentahobi_smtp_port: "{{ smtp_port }}"
+pentahobi_smtp_port: "{{ smtp_port | default('25') }}"
 
 # The default 'from' address that e-mails from the Pentaho BI will appear to
 # come from (e.g. joe.pentaho@pentaho.org).
-pentahobi_smtp_default_from: "{{ smtp_noreply }}"
+pentahobi_smtp_default_from: "{{ smtp_noreply | default('no-reply@example.org') }}"
 
 #
 # LDAP
@@ -96,10 +96,10 @@ pentahobi_smtp_default_from: "{{ smtp_noreply }}"
 # URI of the LDAP server to connect to. The URI scheme may be ldap, or ldaps.
 # Port number may be specified; the default port number for the selected
 # protocol is used if omitted.
-pentahobi_ldap_server_url: "ldaps://{{ ldap_host }}"
+pentahobi_ldap_server_url: "ldaps://{{ ldap_host | default('localhost') }}"
 
 # Distinguished name of the search base.
-pentahobi_ldap_base_dn: "{{ ldap_basedn }}"
+pentahobi_ldap_base_dn: "{{ ldap_basedn | default('') }}"
 
 # Fully qualified distinguished name of a user with read access to LDAP.
 pentahobi_ldap_bind_dn: ''
