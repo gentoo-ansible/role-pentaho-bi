@@ -20,6 +20,16 @@
   command: >
     unzip -o -d {{ _tmp.path }} {{ _tmp.path }}/{{ pentahobi_pkg_url | basename }}
 
+- name: copy patch files to remote
+  copy: >
+    src=PUCLogin.jsp.patch
+    dest={{ _tmp.path }}/
+
+
+- name: patch PUCLogin.jsp to remove "evaluation login"
+  patch: >
+    src={{ _tmp.path }}/PUCLogin.jsp.patch
+    dest={{ _tmp.path }}/biserver-ce/tomcat/webapps/pentaho/jsp/PUCLogin.jsp
 
 - name: remove unwanted files in webapps/pentaho
   file: >
