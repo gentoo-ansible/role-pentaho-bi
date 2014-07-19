@@ -22,14 +22,21 @@
 
 - name: copy patch files to remote
   copy: >
-    src=PUCLogin.jsp.patch
+    src={{ item }}
     dest={{ _tmp.path }}/
+  with_fileglob:
+    - '*.patch'
 
 
 - name: patch PUCLogin.jsp to remove "evaluation login"
   patch: >
     src={{ _tmp.path }}/PUCLogin.jsp.patch
     dest={{ _tmp.path }}/biserver-ce/tomcat/webapps/pentaho/jsp/PUCLogin.jsp
+
+- name: patch pentaho-spring-beans.xml to remove useless imports
+  patch: >
+    src={{ _tmp.path }}/pentaho-spring-beans.xml.patch
+    dest={{ _tmp.path }}/biserver-ce/pentaho-solutions/system/pentaho-spring-beans.xml
 
 - name: remove unwanted files in webapps/pentaho
   file: >

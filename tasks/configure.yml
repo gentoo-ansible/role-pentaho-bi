@@ -34,7 +34,6 @@
     owner={{ pentahobi_user }}
     group={{ pentahobi_group }}
   with_items:
-    - pentaho-spring-beans.xml
     - smtp-email/email_config.xml
     - applicationContext-security-ldap.properties
 

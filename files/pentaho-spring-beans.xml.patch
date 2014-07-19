@@ -1,0 +1,27 @@
+--- pentaho-spring-beans.xml.orig	2014-07-19 14:48:54.000000000 +0200
++++ pentaho-spring-beans.xml	2014-07-19 14:49:39.000000000 +0200
+@@ -46,13 +46,8 @@
+   <import resource="systemListeners.xml" />
+   <import resource="repository.spring.xml" />
+   <import resource="applicationContext-spring-security.xml" />
+-    <import resource="applicationContext-spring-security-superuser.xml" />
+-  <import resource="applicationContext-pentaho-security-superuser.xml" />
+-  
+   <import resource="applicationContext-common-authorization.xml" />
+-    <import resource="applicationContext-spring-security-memory.xml" />
+ 
+-<import resource="applicationContext-pentaho-security-memory.xml" />
+     <import resource="applicationContext-spring-security-ldap.xml" />
+   <import resource="applicationContext-pentaho-security-ldap.xml" />
+ 
+@@ -60,10 +55,8 @@
+   <import resource="applicationContext-spring-security-jackrabbit.xml" />
+     <import resource="applicationContext-pentaho-security-jdbc.xml" />
+   <import resource="applicationContext-spring-security-jdbc.xml" />
+-
+   
+   <import resource="pentahoObjects.spring.xml" />
+-  <import resource="GettingStartedDB-spring.xml" /> <!-- Remove this line to unhook the Getting Started DB -->
+   <import resource="importExport.xml" />
+   <import resource="defaultUser.spring.xml"/>
+   <import resource="sessionStartupActions.xml" />
