@@ -38,6 +38,11 @@
     src={{ _tmp.path }}/pentaho-spring-beans.xml.patch
     dest={{ _tmp.path }}/biserver-ce/pentaho-solutions/system/pentaho-spring-beans.xml
 
+- name: patch applicationContext-pentaho-security-ldap.xml to customize search scope
+  patch: >
+    src={{ _tmp.path }}/applicationContext-pentaho-security-ldap.xml.patch
+    dest={{ _tmp.path }}/biserver-ce/pentaho-solutions/system/applicationContext-pentaho-security-ldap.xml
+
 - name: remove unwanted files in webapps/pentaho
   file: >
     state=absent

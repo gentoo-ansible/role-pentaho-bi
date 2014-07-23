@@ -10,16 +10,20 @@ userSearch.searchFilter=(&(uid={0}){{ pentahobi_ldap_people_filter }})
 allUsernamesSearch.usernameAttribute=uid
 allUsernamesSearch.searchBase={{ pentahobi_ldap_people_base }}
 allUsernamesSearch.searchFilter={{ pentahobi_ldap_people_filter }}
+# 0 = base; 1 = one; 2 = sub
+allUsernamesSearch.scope=2
 
 populator.convertToUpperCase=false
 populator.groupRoleAttribute=cn
 populator.groupSearchBase={{ pentahobi_ldap_groups_base }}
-populator.groupSearchFilter=({{ pentahobi_ldap_groups_member_attr }}={0})
+populator.groupSearchFilter=(&({{ pentahobi_ldap_groups_member_attr }}={0}){{ pentahobi_ldap_groups_filter }})
 populator.rolePrefix=
 populator.searchSubtree=true
 
 allAuthoritiesSearch.roleAttribute=cn
 allAuthoritiesSearch.searchBase={{ pentahobi_ldap_groups_base }}
 allAuthoritiesSearch.searchFilter={{ pentahobi_ldap_groups_filter }}
+# 0 = base; 1 = one; 2 = sub
+allAuthoritiesSearch.scope=2
 
 adminRole={{ pentahobi_ldap_admin_group_dn }}
