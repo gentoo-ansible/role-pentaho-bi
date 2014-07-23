@@ -15,6 +15,9 @@ pentahobi_user: pentaho
 # Group to create that will run the Pentaho BI instance.
 pentahobi_group: "{{ pentahobi_user }}"
 
+# Port number for Tomcat to listen on.
+pentahobi_http_port: 8080
+
 
 # Path of the base directory to install into.
 pentahobi_base_dir: "/opt/{{ pentahobi_name }}"

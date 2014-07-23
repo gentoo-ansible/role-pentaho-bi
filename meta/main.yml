@@ -15,6 +15,7 @@ dependencies:
     tomcat_name: "{{ pentahobi_name }}"
     tomcat_user: "{{ pentahobi_user }}"
     tomcat_group: "{{ pentahobi_group }}"
+    tomcat_port: "{{ pentahobi_http_port }}"
     tomcat_base_dir: "{{ pentahobi_base_dir }}"
     tomcat_extra_jars: ['jdbc-postgresql']
     tomcat_global_resources: "{{ _default_jndi_resources + pentahobi_jndi_resources }}"
