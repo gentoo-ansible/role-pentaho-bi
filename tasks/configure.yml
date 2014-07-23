@@ -1,8 +1,11 @@
 ---
-- name: replace pentaho/WEB-INF/web.xml
+- name: replace pentaho/WEB-INF/web.xml and log4j.xml
   template: >
-    src=webapps/pentaho/WEB-INF/web.xml.j2
-    dest={{ pentahobi_base_dir }}/webapps/pentaho/WEB-INF/web.xml
+    src={{ item }}.j2
+    dest={{ pentahobi_base_dir }}/{{ item }}
+  with_items:
+    - webapps/pentaho/WEB-INF/web.xml
+    - webapps/pentaho/WEB-INF/classes/log4j.xml
 
 - name: ensure directories
   file: >

@@ -32,6 +32,9 @@ pentahobi_locale: cs_CZ
 # Authentication provider; jackrabbit, ldap, or jdbc. Default is jackrabbit.
 pentabobi_auth_provider: jackrabbit
 
+# Logging level for log4j.
+pentahobi_log_level: warn
+
 #
 # Tomcat
 #
