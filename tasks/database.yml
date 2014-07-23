@@ -20,6 +20,7 @@
     - "{{ pentahobi_db_jcr_name }}"
 
 - name: initialize database for quartz
+  delegate_to: "{{ pentahobi_db_delegate_to }}"
   postgresql_exec: >
     src=quartz_init.pg.sql
     database={{ pentahobi_db_qrtz_name }}
