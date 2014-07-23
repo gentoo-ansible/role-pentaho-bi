@@ -26,6 +26,7 @@
     - hibernate/hibernate-settings.xml
     - hibernate/postgresql.jndi.hibernate.cfg.xml
     - jackrabbit/repository.xml
+  notify: restart tomcat
 
 - name: copy configuration files
   template: >
@@ -36,8 +37,10 @@
   with_items:
     - smtp-email/email_config.xml
     - applicationContext-security-ldap.properties
+  notify: restart tomcat
 
 - name: set authentication provider
   copy: >
     content="provider={{ pentabobi_auth_provider }}\n"
     dest={{ pentahobi_solution_path }}/system/security.properties
+  notify: restart tomcat
