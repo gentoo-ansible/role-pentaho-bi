@@ -3,7 +3,7 @@
 pentahobi_name: pentaho-bi
 
 # Version to install.
-pentahobi_version: 5.1.0.0-752
+pentahobi_version: 5.2.0.0-209
 
 # URL of the distribution package to download.
 pentahobi_pkg_url: "http://sourceforge.net/projects/pentaho/files/biserver-ce-{{ pentahobi_version }}.zip"
