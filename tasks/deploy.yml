@@ -53,7 +53,7 @@
 
 - name: copy webapps
   command: >
-    cp -Rl {{ _tmp.path }}/biserver-ce/tomcat/webapps/{{ item }} {{ pentahobi_base_dir }}/webapps/
+    cp -Rf {{ _tmp.path }}/biserver-ce/tomcat/webapps/{{ item }} {{ pentahobi_base_dir }}/webapps/
   with_items:
     - pentaho
     - pentaho-style
@@ -81,7 +81,7 @@
 
 - name: copy pentaho-solutions directory
   shell: >
-    cp -Rl {{ _tmp.path }}/biserver-ce/pentaho-solutions/* {{ pentahobi_solution_path }}/
+    cp -Rf {{ _tmp.path }}/biserver-ce/pentaho-solutions/* {{ pentahobi_solution_path }}/
 
 - name: fix files permissions
   file: >
